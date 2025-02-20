@@ -1,9 +1,9 @@
+import os
 from dash import Dash, html, dcc, callback, Output, Input
 import plotly.express as px
 import pandas as pd
 
 df = pd.read_csv('https://raw.githubusercontent.com/plotly/datasets/master/gapminder_unfiltered.csv')
-
 
 # Obtener lista de países únicos
 countries = df["country"].unique()
@@ -34,8 +34,8 @@ def update_graph(selected_countries):
     fig = px.line(filtered_df, x="year", y="lifeExp", color="country", markers=True,
                   title="Esperanza de Vida a lo Largo del Tiempo")
     
-
     return fig
 
 if __name__ == "__main__":
-    app.run_server(debug=True)
+    port = int(os.environ.get("PORT", 8080))  # Usa el puerto asignado por Render o 8080 por defecto
+    app.run_server(debug=True, host="0.0.0.0", port=port)
